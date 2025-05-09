@@ -1,0 +1,109 @@
+<!-- frontend/public/subscription.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assinar Plano - Academia UEMG</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Academia UEMG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#planos">Planos</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto" id="user-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Minha Conta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout-btn">Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div id="alert-container"></div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Assinar Plano</h4>
+                    </div>
+                    <div class="card-body" id="plan-details">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button id="subscribe-btn" class="btn btn-primary">Confirmar Assinatura</button>
+                        <a href="dashboard.html" class="btn btn-secondary">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 bg-dark text-white text-center mt-auto">
+        <div class="container">
+            <p class="mb-0">Academia UEMG &copy; 2025. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/plans.js"></script>
+    <script src="js/users.js"></script>
+    <script>
+        let planId;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Redirecionar se não estiver logado
+            if (!localStorage.getItem('token')) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Obter ID do plano da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            planId = urlParams.get('planId');
+            
+            if (!planId) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            // Carregar detalhes do plano
+            loadPlanDetails(planId);
+            
+            // Configurar botão de assinatura
+            document.getElementById('subscribe-btn').addEventListener('click', function() {
+                subscribeToPlan(planId);
+            });
+            
+            // Configurar botão de logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+        });
+    </script>
+</body>
+</html>
