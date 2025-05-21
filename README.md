@@ -1,5 +1,7 @@
 # GymSystem
 
+(Ainda esta em desenvolvimento!!)
+
 ## 🌐 Arquitetura Física de Implantação
 
 ### 1. Visão Geral
